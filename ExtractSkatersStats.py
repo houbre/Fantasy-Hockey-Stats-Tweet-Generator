@@ -42,7 +42,7 @@ def main():
     SkatersMiscellaneousStats = GetSkatersMiscellaneousStats()
     SkatersMiscellaneousStatsDf = pd.DataFrame(SkatersMiscellaneousStats)
     SkatersMiscellaneousStatsDf.to_csv(f"SkatersMiscellaneousStats.csv", index=False)
-    print(f"Skater miscellaneous statistics have been successfully saved.")
+    print(f"Skater miscellaneous statistics have been successfully saved.\n")
 
 if __name__ == '__main__':
     main()
