@@ -100,7 +100,7 @@ def CreateDataBase(Password, TableName):
                         missedShotWideOfNet integer,
                         missedShots integer,
                         otGoals integer,
-                        playerId integer,
+                        playerId integer PRIMARY KEY,
                         positionCode text,
                         seasonId integer,
                         shootsCatches text,
@@ -118,7 +118,7 @@ def CreateDataBase(Password, TableName):
         cur.execute(NewTable)
         conn.commit()
 
-        print(f"Table {TableName} successfully created\\n")
+        print(f"Table {TableName} successfully created! \n")
 
     except Exception as e:
         print(f"An error occurred while creating the table: {e}")
@@ -146,7 +146,7 @@ def LoadCsvToDataBase(Password, Path, TableName):
             cur.copy_from(f, TableName, sep=',', null=' ')
 
         conn.commit()
-        print(f"Table {TableName} successfully loaded with data\ \n")
+        print(f"Table {TableName} successfully loaded with data \n")
     
     except Exception as e:
         print(f"An error occurred while creating the table: {e}")
@@ -175,7 +175,7 @@ def main(DBPassword):
     CreateDataBase(DBPassword, MiscellaneousStatsTableName)
     LoadCsvToDataBase(DBPassword, MISCELLANEOUS_STATS_PATH, MiscellaneousStatsTableName)
 
-    print('SkaterMiscellaneousStats table successfully created and loaded with data \n')
+    print('SkaterMiscellaneousStats table successfully created and loaded with data! \n')
 
 
 if __name__ == "__main__":
