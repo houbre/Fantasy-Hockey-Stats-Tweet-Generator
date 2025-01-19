@@ -34,7 +34,7 @@ def DropTable(Password, TableToDrop):
         conn.close()
 
 
-def CreateDataBase(Password, TableName):
+def CreateTable(Password, TableName):
 
     try:
         print(f'Creating table {TableName}...')
@@ -162,7 +162,7 @@ def main(DBPassword):
     SumaryStatsTableName = 'skatersummarystats'
 
     DropTable(DBPassword, SumaryStatsTableName)
-    CreateDataBase(DBPassword, SumaryStatsTableName)
+    CreateTable(DBPassword, SumaryStatsTableName)
     LoadCsvToDataBase(DBPassword, SUMMARY_STATS_PATH, SumaryStatsTableName)
 
     print('SkaterSummaryStats table successfully created and loaded with data! \n')
@@ -172,7 +172,7 @@ def main(DBPassword):
     MiscellaneousStatsTableName = 'skatermiscellaneousstats'
 
     DropTable(DBPassword, MiscellaneousStatsTableName)
-    CreateDataBase(DBPassword, MiscellaneousStatsTableName)
+    CreateTable(DBPassword, MiscellaneousStatsTableName)
     LoadCsvToDataBase(DBPassword, MISCELLANEOUS_STATS_PATH, MiscellaneousStatsTableName)
 
     print('SkaterMiscellaneousStats table successfully created and loaded with data! \n')
