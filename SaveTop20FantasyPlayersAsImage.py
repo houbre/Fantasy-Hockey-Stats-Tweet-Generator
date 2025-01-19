@@ -32,7 +32,7 @@ def FetchTop20PlayersFromDB(Password):
         if conn:
             conn.close()
 
-def PlotTop20Players(df):
+def PlotAndSaveTop20PlayersImage(df):
 
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.axis('tight')
@@ -55,7 +55,7 @@ def PlotTop20Players(df):
     plt.tight_layout()
     
     # Save img
-    plt.savefig("Top20FantasyPlayers_20242025_season.png", dpi=300, bbox_inches='tight')
+    plt.savefig("./images/Top20FantasyPlayers_20242025_season.png", dpi=300, bbox_inches='tight')
     print(f"Image saved to Top20FantasyPlayers_20242025_season.png! \n")
 
     plt.close(fig)
@@ -66,7 +66,7 @@ def main(Password):
     Top20DF = FetchTop20PlayersFromDB(Password)
     
     if Top20DF is not None:
-        PlotTop20Players(Top20DF)
+        PlotAndSaveTop20PlayersImage(Top20DF)
 
 if __name__ == "__main__":
     main()

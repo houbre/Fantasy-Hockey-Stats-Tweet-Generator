@@ -2,8 +2,10 @@ import ExtractSkatersStats
 import TransformSkaterStats
 import LoadCsvIntoDB
 import CreateSeasonFantasyRankings
-import DisplayTop20FantasyPlayers
+import SaveTop20FantasyPlayersAsImage
+import PostImageToTwitter
 import argparse
+from datetime import date
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -26,8 +28,16 @@ def main():
 
     # Create postgres table with aggregated data using only fanatsy relevant columns
     CreateSeasonFantasyRankings.main(Password)
-    DisplayTop20FantasyPlayers.main(Password)
+    SaveTop20FantasyPlayersAsImage.main(Password)
     print("successfully created the fantasy season rankings table! \n")
+
+
+    # Post image to twitter
+    today = date.today()
+
+    TwitterPost = f"Top 20 fantasy players in Ligue du Collège. The rankings are calculated following the games played on {today}. #bergtropfort"
+    Top20RankingsImg = "./images/Top20FantasyPlayers_20242025_season.png"
+    PostImageToTwitter.main(TwitterPost, Top20RankingsImg)
 
 
 if __name__ == '__main__':
