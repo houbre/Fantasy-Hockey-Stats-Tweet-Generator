@@ -21,7 +21,7 @@ def ProcessCsv(Paths):
         df.to_csv(Path, index=False)
 
 def main():
-    ProcessCsv(['SkaterSummaryStats.csv', 'SkatersMiscellaneousStats.csv'])
+    ProcessCsv(['./CsvFiles/SkaterSummaryStats.csv', './CsvFiles/SkatersMiscellaneousStats.csv'])
 
 if __name__ == '__main__':
     main()

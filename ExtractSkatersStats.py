@@ -35,13 +35,13 @@ def main():
     # Get skaters summary data
     SkatersSummaryData = GetSkatersSummaryStats()
     SkatersSummaryStatsDf = pd.DataFrame(SkatersSummaryData)
-    SkatersSummaryStatsDf.to_csv(f"SkaterSummaryStats.csv", index=False)
+    SkatersSummaryStatsDf.to_csv(f"./CsvFiles/SkaterSummaryStats.csv", index=False)
     print(f"Skater summary statistics have been successfully saved.")
 
     # Get skaters summary data
     SkatersMiscellaneousStats = GetSkatersMiscellaneousStats()
     SkatersMiscellaneousStatsDf = pd.DataFrame(SkatersMiscellaneousStats)
-    SkatersMiscellaneousStatsDf.to_csv(f"SkatersMiscellaneousStats.csv", index=False)
+    SkatersMiscellaneousStatsDf.to_csv(f"./CsvFiles/SkatersMiscellaneousStats.csv", index=False)
     print(f"Skater miscellaneous statistics have been successfully saved.\n")
 
 if __name__ == '__main__':

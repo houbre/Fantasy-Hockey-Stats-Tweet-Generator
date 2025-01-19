@@ -2,8 +2,8 @@ import psycopg2
 import csv
 import pandas as pd
 
-SUMMARY_STATS_PATH = "SkaterSummaryStats.csv"
-MISCELLANEOUS_STATS_PATH = "SkatersMiscellaneousStats.csv"
+SUMMARY_STATS_PATH = "./CsvFiles/SkaterSummaryStats.csv"
+MISCELLANEOUS_STATS_PATH = "./CsvFiles/SkatersMiscellaneousStats.csv"
 
 def DropTable(Password, TableToDrop):
 
@@ -14,7 +14,7 @@ def DropTable(Password, TableToDrop):
                 dbname="FantasyHockey",
                 user="postgres",
                 password=Password,
-                port="8080"
+                port="5432"
             )
         cur = conn.cursor()
 
@@ -43,7 +43,7 @@ def CreateDataBase(Password, TableName):
                 dbname="FantasyHockey",
                 user="postgres",
                 password=Password,
-                port="8080"
+                port="5432"
             )
         cur = conn.cursor()
 
@@ -137,7 +137,7 @@ def LoadCsvToDataBase(Password, Path, TableName):
                 dbname="FantasyHockey",
                 user="postgres",
                 password=Password,
-                port="8080"
+                port="5432"
             )
         cur = conn.cursor()
 
