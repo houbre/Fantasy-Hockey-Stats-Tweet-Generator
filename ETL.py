@@ -5,7 +5,10 @@ import CreateSeasonFantasyRankings
 import SaveTop20FantasyPlayersAsImage
 import PostImageToTwitter
 import argparse
-from datetime import date
+from datetime import date, timedelta
+
+Top20SeasonRankingsImgPATH = "./images/Top20FantasyPlayers_seasonrankings.png"
+Top20DateRankingsImgPATH = "./images/Top20FantasyPlayers_daterankings.png"
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -14,7 +17,6 @@ def parse_arguments():
     args =  parser.parse_args()
 
     return args
-
 
 def main():
     args = parse_arguments()
@@ -26,18 +28,23 @@ def main():
     LoadCsvIntoDB.main(Password)
     print("Data was successfully extracted, transformed and loaded into a Postgres database! \n")
 
-    # Create postgres table with aggregated data using only fanatsy relevant columns
-    CreateSeasonFantasyRankings.main(Password)
-    SaveTop20FantasyPlayersAsImage.main(Password)
+    # Create postgres table for season stats with aggregated data using only fanatsy relevant columns
+    CreateSeasonFantasyRankings.main(Password, 'season')
+    SaveTop20FantasyPlayersAsImage.main(Password, 'seasonrankings')
+    print("successfully created the fantasy season rankings table! \n")
+
+    # Create postgres table for date specific stats with aggregated data using only fanatsy relevant columns
+    CreateSeasonFantasyRankings.main(Password, 'date')
+    SaveTop20FantasyPlayersAsImage.main(Password, 'daterankings')
     print("successfully created the fantasy season rankings table! \n")
 
 
     # Post image to twitter
     today = date.today()
+    yesterday = today - timedelta(days=1)
 
-    TwitterPost = f"Top 20 fantasy players in Ligue du Collège. The rankings are calculated following the games played on {today}. #bergtropfort"
-    Top20RankingsImg = "./images/Top20FantasyPlayers_20242025_season.png"
-    PostImageToTwitter.main(TwitterPost, Top20RankingsImg)
+    TwitterPost = f"Top 20 fantasy players in Ligue du Collège for yesterday's games and overall this season. The rankings are calculated following the games played on {yesterday}. #bergtropfort"
+    PostImageToTwitter.main(TwitterPost, [Top20DateRankingsImgPATH, Top20SeasonRankingsImgPATH])
 
 
 if __name__ == '__main__':

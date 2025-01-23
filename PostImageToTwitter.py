@@ -24,7 +24,7 @@ def GetTwitterClient(api_key, api_secret, access_token, access_secret):
 
     return client
 
-def Tweet(TwitterPost, ImagePath):
+def Tweet(TwitterPost, ImagePaths):
 
     load_dotenv("./.gitignore/.env")
 
@@ -37,19 +37,21 @@ def Tweet(TwitterPost, ImagePath):
     API = GetTwitterAPI(api_key, api_secret, access_token, access_secret)
     CLIENT = GetTwitterClient(api_key, api_secret, access_token, access_secret)
 
-    media = API.media_upload(filename=ImagePath)
-    media_id = media.media_id
+    media_ids = []
+    for filename in ImagePaths:
+        res = API.media_upload(filename)
+        media_ids.append(res.media_id)
 
     # Post the image with a tweet
     try:
-        CLIENT.create_tweet(text=TwitterPost, media_ids=[media_id])
+        CLIENT.create_tweet(text=TwitterPost, media_ids=media_ids)
         print("Tweet posted successfully!")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 
-def main(TwitterPost, ImagePath):
-    Tweet(TwitterPost, ImagePath)
+def main(TwitterPost, ImagePaths):
+    Tweet(TwitterPost, ImagePaths)
 
 
 if __name__ == '__main__':

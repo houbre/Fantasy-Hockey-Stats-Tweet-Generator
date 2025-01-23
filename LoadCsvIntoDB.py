@@ -4,6 +4,8 @@ import pandas as pd
 
 SUMMARY_STATS_PATH = "./CsvFiles/SkaterSummaryStats.csv"
 MISCELLANEOUS_STATS_PATH = "./CsvFiles/SkatersMiscellaneousStats.csv"
+SUMMARY_GAME_STATS_PATH = "./CsvFiles/SkatersSummaryGameStats.csv"
+MISCELLANEOUS_GAME_STATS_PATH = "./CsvFiles/SkatersMiscellaneousGameStats.csv"
 
 def DropTable(Password, TableToDrop):
 
@@ -47,7 +49,7 @@ def CreateTable(Password, TableName):
             )
         cur = conn.cursor()
 
-        if (TableName == 'skatersummarystats'):
+        if (TableName == 'skatersummarystats' or TableName == 'skatersummarygamestats'):
         
             NewTable = f"""CREATE TABLE IF NOT EXISTS {TableName}(
                         assists integer,
@@ -78,7 +80,7 @@ def CreateTable(Password, TableName):
                         timeOnIcePerGame double precision
             );"""
 
-        elif (TableName == 'skatermiscellaneousstats'):
+        elif (TableName == 'skatermiscellaneousstats' or TableName == 'skatermiscellaneousgamestats'):
                         
             NewTable = f"""CREATE TABLE IF NOT EXISTS {TableName}(
                         blockedShots integer,
@@ -160,21 +162,31 @@ def main(DBPassword):
 
     # Create skater summary stats table and load data
     SumaryStatsTableName = 'skatersummarystats'
-
     DropTable(DBPassword, SumaryStatsTableName)
     CreateTable(DBPassword, SumaryStatsTableName)
     LoadCsvToDataBase(DBPassword, SUMMARY_STATS_PATH, SumaryStatsTableName)
-
     print('SkaterSummaryStats table successfully created and loaded with data! \n')
     
 
     # Create skater miscellaneous stats table and load data
     MiscellaneousStatsTableName = 'skatermiscellaneousstats'
-
     DropTable(DBPassword, MiscellaneousStatsTableName)
     CreateTable(DBPassword, MiscellaneousStatsTableName)
     LoadCsvToDataBase(DBPassword, MISCELLANEOUS_STATS_PATH, MiscellaneousStatsTableName)
+    print('SkaterMiscellaneousStats table successfully created and loaded with data! \n')
 
+    # Create skater summary game stats table and load data
+    SumaryGameStatsTableName = 'skatersummarygamestats'
+    DropTable(DBPassword, SumaryGameStatsTableName)
+    CreateTable(DBPassword, SumaryGameStatsTableName)
+    LoadCsvToDataBase(DBPassword, SUMMARY_GAME_STATS_PATH, SumaryGameStatsTableName)
+    print('SkaterSummaryGameStats table successfully created and loaded with data! \n')
+
+    # Create skater miscellaneous stats table and load data
+    MiscellaneousGameStatsTableName = 'skatermiscellaneousgamestats'
+    DropTable(DBPassword, MiscellaneousGameStatsTableName)
+    CreateTable(DBPassword, MiscellaneousGameStatsTableName)
+    LoadCsvToDataBase(DBPassword, MISCELLANEOUS_GAME_STATS_PATH, MiscellaneousGameStatsTableName)
     print('SkaterMiscellaneousStats table successfully created and loaded with data! \n')
 
 

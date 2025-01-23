@@ -1,8 +1,9 @@
 import psycopg2
 
 
-def DropSeasonRankingsTable(Password):
-    print(f'Dropping Table seasonrankings...')
+def DropSeasonOrDateRankingsTable(Password, StatsType):
+    print(f'Dropping Table...')
+    
     try:
         conn = psycopg2.connect(
                 host="localhost",
@@ -13,12 +14,17 @@ def DropSeasonRankingsTable(Password):
             )
         cur = conn.cursor()
 
-        DropTable = f"""DROP TABLE IF EXISTS seasonrankings;"""
-
+        if StatsType == 'season':
+            DropTable = f"""DROP TABLE IF EXISTS seasonrankings;"""
+        elif StatsType == 'date':
+            DropTable = f"""DROP TABLE IF EXISTS daterankings;"""
+        else:
+            raise Exception(f'Wrong type: {StatsType}')
+        
         cur.execute(DropTable)
         conn.commit()
 
-        print(f"Table seasonrankings successfully dropped! \n")
+        print(f"Table successfully dropped! \n")
 
     except Exception as e:
         print(f"An error occurred while dropping the table: {e}")
@@ -28,8 +34,8 @@ def DropSeasonRankingsTable(Password):
         cur.close()
         conn.close()
 
-def CreateSeasonRankingsTable(Password):
-    print('Creating table seasonrankings...')
+def CreateSeasonOrDateRankingsTable(Password, StatsType):
+    print('Creating table...')
     try:
         conn = psycopg2.connect(
             host="localhost",
@@ -40,7 +46,18 @@ def CreateSeasonRankingsTable(Password):
         )
         cur = conn.cursor()
 
-        CreateTable = """CREATE TABLE seasonrankings AS
+        if StatsType == 'season':
+            TableName = 'seasonrankings'
+            SummaryTable = 'skatersummarystats'
+            MiscellaneousTable = 'skatermiscellaneousstats'
+        elif StatsType == 'date':
+            TableName = 'daterankings'
+            SummaryTable = 'skatersummarygamestats'
+            MiscellaneousTable = 'skatermiscellaneousgamestats'
+        else:
+            raise Exception(f'Wrong type: {StatsType}')
+        
+        CreateTable = f"""CREATE TABLE {TableName} AS
                          SELECT 
                             RANK() OVER (ORDER BY totalFantasyPoints DESC) AS rank,
                             playerId,
@@ -70,9 +87,9 @@ def CreateSeasonRankingsTable(Password):
                                 m.blockedShots,
                                 (s.goals * 6 + s.assists * 4 + s.plusMinus + s.ppPoints * 2 + s.shots * 0.9 + m.blockedShots + m.hits * 0.5) AS totalFantasyPoints
                             FROM 
-                                skatersummarystats s
+                                {SummaryTable} s
                             INNER JOIN 
-                                skatermiscellaneousstats m 
+                                {MiscellaneousTable} m 
                             ON 
                                 s.playerId = m.playerId
                          ) AS subquery
@@ -83,7 +100,7 @@ def CreateSeasonRankingsTable(Password):
         cur.execute(CreateTable)
         conn.commit()
 
-        print(f"Table seasonrankings successfully created! \n")
+        print(f"Table successfully created! \n")
 
     except Exception as e:
         print(f"An error occurred while creating the table: {e}")
@@ -92,9 +109,9 @@ def CreateSeasonRankingsTable(Password):
         cur.close()
         conn.close()
 
-def main(Password):
-    DropSeasonRankingsTable(Password)
-    CreateSeasonRankingsTable(Password)
+def main(Password, StatsType):
+    DropSeasonOrDateRankingsTable(Password, StatsType)
+    CreateSeasonOrDateRankingsTable(Password, StatsType)
 
 if __name__ == '__main__':
     main()
